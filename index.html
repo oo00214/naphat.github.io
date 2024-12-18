@@ -1,39 +1,299 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile Page</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>ประวัติส่วนตัว</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      background-color: #222;
+      color: #e0e0e0;
+    }
+
+    /* เมนูนำทาง */
+    .navbar {
+      background-color: #4e91f9;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+    }
+
+    .nav-btn {
+      color: #fff;
+      margin: 0 25px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: all 0.3s ease-in-out;
+      padding: 8px 16px;
+      border-radius: 25px;
+    }
+
+    .nav-btn:hover {
+      background-color: #2d70b4;
+      transform: scale(1.1);
+    }
+
+    /* ส่วนหัว */
+    .profile-header {
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+
+    .profile-pic {
+      border-radius: 50%;
+      width: 200px;
+      height: 200px;
+      border: 5px solid #4e91f9;
+      margin-bottom: 20px;
+      transition: transform 0.4s ease-in-out;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.1);
+    }
+
+    .profile-name {
+      font-size: 2.5rem;
+      margin-top: 15px;
+      color: #fff;
+    }
+
+    .profile-role {
+      font-size: 1.3rem;
+      color: #ccc;
+    }
+
+    /* การเลื่อนให้มีเอฟเฟกต์ */
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      padding: 30px;
+      margin-bottom: 50px;
+      border-radius: 15px;
+      background-color: #333;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1.5s ease-out forwards;
+    }
+
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #e0e0e0;
+      border-bottom: 2px solid #4e91f9;
+      padding-bottom: 10px;
+    }
+
+    .section ul {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .section li {
+      font-size: 1.1rem;
+      color: #ddd;
+      margin-bottom: 10px;
+    }
+
+    .section a {
+      color: #4e91f9;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .section a:hover {
+      color: #2d70b4;
+    }
+
+    /* แก้ไขกราฟ */
+    #skillsChart {
+      opacity: 0;
+      margin-top: 30px;
+      max-width: 450px;
+      max-height: 450px;
+      margin: 0 auto;
+      display: block;
+      animation: fadeIn 2s ease-out forwards;
+    }
+
+  </style>
 </head>
 <body>
+  <!-- เมนูนำทาง -->
+  <nav class="navbar">
+    <a href="#about" class="nav-btn">เกี่ยวกับฉัน</a>
+    <a href="#education" class="nav-btn">การศึกษา</a>
+    <a href="#experience" class="nav-btn">ประสบการณ์ทำงาน</a>
+    <a href="#projects" class="nav-btn">โปรเจกต์</a>
+    <a href="#skills" class="nav-btn">ทักษะ</a>
+    <a href="#interests" class="nav-btn">ความสนใจ</a>
+    <a href="#contact" class="nav-btn">ติดต่อ</a>
+  </nav>
+
   <div class="profile-container">
+    <!-- ส่วนหัว -->
     <div class="profile-header">
-      <img src="profile-pic.jpg" alt="Profile Picture" class="profile-pic">
-      <h1 class="profile-name">John Doe</h1>
-      <p class="profile-role">Software Engineer</p>
+      <img src="np.jpg" alt="รูปโปรไฟล์" class="profile-pic">
+      <h1 class="profile-name">
+        <span class="typed"></span> <!-- Typing effect -->
+      </h1>
+      <p class="profile-role">นักพัฒนาซอฟต์แวร์</p>
     </div>
-    <div class="profile-info">
-      <h2>About Me</h2>
-      <p>Hello! I am a passionate developer with experience in web and mobile application development.</p>
 
-      <h2>Contact Information</h2>
+    <!-- ข้อมูลทั่วไป -->
+    <section id="about" class="section">
+      <h2>เกี่ยวกับฉัน</h2>
+      <p>สวัสดีครับ! ผมเป็นนักพัฒนาที่หลงใหลในเทคโนโลยี มีความเชี่ยวชาญทั้งด้านการพัฒนาเว็บไซต์และแอปพลิเคชันบนมือถือ</p>
       <ul>
-        <li>Email: johndoe@example.com</li>
-        <li>Phone: +123 456 7890</li>
-        <li>LinkedIn: <a href="https://linkedin.com/in/johndoe" target="_blank">linkedin.com/in/johndoe</a></li>
+        <li><strong>ห้อง:</strong> IT5101</li>
+        <li><strong>เลขที่:</strong> 32</li>
+        <li><strong>รหัสนักศึกษา:</strong> 66309010066</li>
       </ul>
+    </section>
 
-      <h2>Skills</h2>
-      <div class="skills">
-        <span>HTML</span>
-        <span>CSS</span>
-        <span>JavaScript</span>
-        <span>React</span>
-        <span>Node.js</span>
-      </div>
-    </div>
+    <!-- ประวัติการศึกษา -->
+    <section id="education" class="section">
+      <h2>ประวัติการศึกษา</h2>
+      <ul>
+        <li><strong>หลักสูตร:</strong> เทคโนโลยีสารสนเทศ</li>
+        <li><strong>สถาบัน:</strong> วิทยาลัยเทคโนโลยีโปลิเทคนิคลานนา (ปทล)</li>
+        <li><strong>เกรดเฉลี่ย:</strong> 4.01 (คาดว่าจะสำเร็จการศึกษาในปี 2568)</li>
+      </ul>
+    </section>
+
+    <!-- ประสบการณ์ทำงาน -->
+    <section id="experience" class="section">
+      <h2>ประสบการณ์ทำงาน</h2>
+      <ul>
+        <li><strong>นักศึกษาฝึกงาน</strong> ที่บริษัท Success (กรกฏาคม 2565 - สิงหาคม 2565)
+          <ul>
+            <li>ซ่อมประกอบคอมและติดตั้งกล้องวงจรปิด</li>
+            <li>ฝึกงานร่วมกับเพื่อนในห้อง</li>
+          </ul>
+        </li>
+        <li><strong>นักศึกษาฝึกงาน</strong> ที่สำนักงานเทศบาลเมืองแม่เหียะ (กรกฏาคม 2567 - สิงหาคม 2567)
+          <ul>
+            <li>ปรับข้อมูลที่ดิน LTAXOnline</li>
+            <li>ปั๊มตราเอกสาร</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <!-- โปรเจกต์ -->
+    <section id="projects" class="section">
+      <h2>โปรเจกต์</h2>
+      <ul>
+        <li><strong>Task Manager App:</strong> แอปพลิเคชันจัดการงานพร้อมระบบล็อกอิน พัฒนาโดยใช้ React, Node.js และ MongoDB</li>
+        <li><strong>E-Commerce Website:</strong> เว็บไซต์อีคอมเมิร์ซที่ออกแบบให้ใช้งานง่ายและรองรับอุปกรณ์พกพา พร้อมระบบชำระเงินผ่าน Stripe</li>
+      </ul>
+    </section>
+
+    <!-- ทักษะ -->
+    <section id="skills" class="section">
+      <h2>ทักษะ</h2>
+      <canvas id="skillsChart" width="500" height="500"></canvas>
+    </section>
+
+    <!-- ความสนใจ -->
+    <section id="interests" class="section">
+      <h2>ความสนใจ</h2>
+      <p>ชื่นชอบการเรียนรู้เทคโนโลยีใหม่ๆ แก้ปัญหาความท้าทายด้วยโค้ด และมีส่วนร่วมในโปรเจกต์ Open Source นอกจากนี้ยังสนุกกับการเล่นเกม ออกกำลังกาย และการถ่ายภาพ</p>
+    </section>
+
+    <!-- ข้อมูลการติดต่อ -->
+    <section id="contact" class="section">
+      <h2>ข้อมูลการติดต่อ</h2>
+      <ul>
+        <li><strong>อีเมล:</strong> napalt301@gmail.com</li>
+        <li><strong>โทรศัพท์:</strong> 096-256-4668</li>
+        <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/johndoe" target="_blank">linkedin.com/in/johndoe</a></li>
+      </ul>
+    </section>
   </div>
+
+  <script>
+    const data = {
+      labels: ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'Python', 'SQL'],
+      datasets: [{
+        label: 'ระดับความชำนาญ',
+        data: [50, 50, 60, 75, 70, 60, 70],
+        backgroundColor: [
+          'rgba(78, 145, 249, 0.6)',
+          'rgba(78, 203, 249, 0.6)',
+          'rgba(124, 249, 78, 0.6)',
+          'rgba(249, 219, 78, 0.6)',
+          'rgba(249, 140, 78, 0.6)',
+          'rgba(249, 78, 173, 0.6)',
+          'rgba(173, 78, 249, 0.6)'
+        ],
+        borderColor: [
+          'rgba(78, 145, 249, 1)',
+          'rgba(78, 203, 249, 1)',
+          'rgba(124, 249, 78, 1)',
+          'rgba(249, 219, 78, 1)',
+          'rgba(249, 140, 78, 1)',
+          'rgba(249, 78, 173, 1)',
+          'rgba(173, 78, 249, 1)'
+        ],
+        borderWidth: 2
+      }]
+    };
+
+    const config = {
+      type: 'radar',
+      data: data,
+      options: {
+        scales: {
+          r: {
+            beginAtZero: true,
+            angleLines: { color: '#444' },
+            grid: { color: '#444' },
+            ticks: {
+              color: '#fff',
+              backdropColor: '#1c1c1c',
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: '#ffffff',
+              font: { size: 14 }
+            }
+          }
+        }
+      }
+    };
+
+    const ctx = document.getElementById('skillsChart').getContext('2d');
+    new Chart(ctx, config);
+
+    let typed = new Typed(".typed", {
+      strings: ["นักศึกษา", "ณภัทร เงานอ"],
+      typeSpeed: 100,
+      backSpeed: 50,
+      backDelay: 1000,
+      loop: true
+    });
+  </script>
 </body>
 </html>
